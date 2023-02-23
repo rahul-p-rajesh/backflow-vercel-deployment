@@ -13,19 +13,11 @@ const withTM = require('next-transpile-modules')([
 ])
 
 module.exports = withTM({
-  reactStrictMode: true,
   trailingSlash: true,
   reactStrictMode: false,
-
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'http://ec2-52-207-247-121.compute-1.amazonaws.com:8080/:path*'
-      }
-    ]
+  experimental: {
+    esmExternals: false
   },
-
   webpack: config => {
     config.resolve.alias = {
       ...config.resolve.alias,
@@ -33,6 +25,5 @@ module.exports = withTM({
     }
 
     return config
-  },
-
+  }
 })
