@@ -1,25 +1,18 @@
 // ** React Imports
-import { useState } from 'react'
 
 // ** MUI Imports
-import Drawer from '@mui/material/Drawer'
 import Grid from '@mui/material/Grid'
 import Dialog from '@mui/material/Dialog'
-import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
-import MenuItem from '@mui/material/MenuItem'
 import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
-import InputLabel from '@mui/material/InputLabel'
 import Typography from '@mui/material/Typography'
 import Box, { BoxProps } from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormHelperText from '@mui/material/FormHelperText'
 import Checkbox from '@mui/material/Checkbox'
-import { DataGrid } from '@mui/x-data-grid'
-
 
 // ** Third Party Imports
 import * as yup from 'yup'
@@ -38,8 +31,6 @@ import { addUser } from 'src/store/apps/user'
 // ** Types Imports
 import { AppDispatch } from 'src/store'
 
-
-
 interface SidebarAddUserType {
   open: boolean
   toggle: () => void
@@ -47,25 +38,26 @@ interface SidebarAddUserType {
 
 interface UserData {
   email: string
-  websiteUrl:string
- // billing: string
+  websiteUrl: string
+
+  // billing: string
   companyName: string
   slStreetNo: number
   slStreetName: string
-  slApartment : string
+  slApartment: string
   slCity: string
-  slState : string
-  slPostalCode : number
+  slState: string
+  slPostalCode: number
   maStreetNo: number
   maStreetName: string
-  maApartment : string
+  maApartment: string
   maCity: string
-  maState : string
-  maPostalCode : number
+  maState: string
+  maPostalCode: number
   poBoxNo: number
   poBoxCity: string
-  poBoxState : string
-  poBoxPostalCode : number
+  poBoxState: string
+  poBoxPostalCode: number
   phoneNo: number
   firstName: string
   lastName: string
@@ -92,22 +84,23 @@ const Header = styled(Box)<BoxProps>(({ theme }) => ({
 const schema = yup.object().shape({
   companyName: yup.string().required(),
   slStreetNo: yup.number().required(),
-  slStreetName : yup.string().required(),
-  slApartment : yup.string().required(),
+  slStreetName: yup.string().required(),
+  slApartment: yup.string().required(),
   slCity: yup.string().required(),
-  slState : yup.string().required(),
-  slPostalCode : yup.number().required(),  
+  slState: yup.string().required(),
+  slPostalCode: yup.number().required(),
   maStreetNo: yup.number().required(),
-  maStreetName : yup.string().required(),
-  maApartment : yup.string().required(),
+  maStreetName: yup.string().required(),
+  maApartment: yup.string().required(),
   maCity: yup.string().required(),
-  maState : yup.string().required(),
-  maPostalCode : yup.number().required(),
+  maState: yup.string().required(),
+  maPostalCode: yup.number().required(),
   poBoxNo: yup.number().required(),
   poBoxCity: yup.string().required(),
-  poBoxState : yup.string().required(),
-  poBoxPostalCode : yup.number().required(),
- // billing: yup.string().required(),
+  poBoxState: yup.string().required(),
+  poBoxPostalCode: yup.number().required(),
+
+  // billing: yup.string().required(),
   email: yup.string().email().required(),
   websiteUrl: yup.string().url().required(),
   phoneNo: yup
@@ -127,24 +120,25 @@ const schema = yup.object().shape({
 
 const defaultValues = {
   email: '',
-  websiteUrl:'',
+  websiteUrl: '',
   companyName: '',
   slStreetNo: Number(''),
-  slStreetName : '',
-  slApartment : '',
+  slStreetName: '',
+  slApartment: '',
   slCity: '',
-  slState : '',
-  slPostalCode : Number(''),
+  slState: '',
+  slPostalCode: Number(''),
   maStreetNo: Number(''),
-  maStreetName : '',
-  maApartment : '',
+  maStreetName: '',
+  maApartment: '',
   maCity: '',
-  maState : '',
-  maPostalCode : Number(''),
+  maState: '',
+  maPostalCode: Number(''),
   poBoxNo: Number(''),
   poBoxCity: '',
-  poBoxState : '',
-  poBoxPostalCode : Number(''),
+  poBoxState: '',
+  poBoxPostalCode: Number(''),
+
   //billing: '',
   firstName: '',
   lastName: '',
@@ -156,27 +150,18 @@ const SidebarAddUser = (props: SidebarAddUserType) => {
   const { open, toggle } = props
 
   // ** State
- // const [plan, setPlan] = useState<string>('basic')
+  // const [plan, setPlan] = useState<string>('basic')
   //const [role, setRole] = useState<string>('subscriber')
-    const [same,setSame] = useState(
-     { maStreetNo : Number('123'),
-       maStreetName : 'aaa',
-       maApartment : 'aaa',
-       maCity: 'aaa',
-       maState : 'aaa',
-       maPostalCode : Number('632154')
-     }
-        )
 
-
-    // ** Hooks
+  // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
   const {
     reset,
     control,
-    setValue,
+
+    // setValue,
     handleSubmit,
-    formState: { errors , isValid }
+    formState: { errors, isValid }
   } = useForm({
     defaultValues,
     mode: 'onChange',
@@ -184,40 +169,34 @@ const SidebarAddUser = (props: SidebarAddUserType) => {
   })
 
   const onSubmit = (data: UserData) => {
-   // console.log(data)
-    dispatch(addUser({ ...data }))  //,role, currentPlan: plan
-     toggle()
-     reset()
-    
-  }
-
-  const handleClose = () => {
-   // setPlan('basic')
-    //setRole('subscriber')
-   // setValue('phoneNo', Number(''))
+    // console.log(data)
+    dispatch(addUser({ ...data })) //,role, currentPlan: plan
     toggle()
     reset()
   }
-  
-  const handleChange = () => {
-    setSame({ maStreetNo : 1234,
-      maStreetName : 'abc',
-      maApartment : 'abc',
-      maCity: 'abc',
-      maState : 'abc',
-      maPostalCode : 1234567
-    })
-  }
-    
-  return (
-  
-  <Grid>
-    
-  <Dialog fullWidth maxWidth='md' scroll='body' 
-		onClose={handleClose} 
-		open={open}>
 
-   {/*} <Drawer
+  const handleClose = () => {
+    // setPlan('basic')
+    //setRole('subscriber')
+    // setValue('phoneNo', Number(''))
+    toggle()
+    reset()
+  }
+
+  const handleChange = () => {
+    // setSame({ maStreetNo : 1234,
+    //   maStreetName : 'abc',
+    //   maApartment : 'abc',
+    //   maCity: 'abc',
+    //   maState : 'abc',
+    //   maPostalCode : 1234567
+    // })
+  }
+
+  return (
+    <Grid>
+      <Dialog fullWidth maxWidth='md' scroll='body' onClose={handleClose} open={open}>
+        {/*} <Drawer
       open={open}
       anchor='right'
       variant='temporary'
@@ -227,483 +206,495 @@ const SidebarAddUser = (props: SidebarAddUserType) => {
     >
   */}
 
+        <Header>
+          <Typography variant='h6'> Add User </Typography>
+          <IconButton size='small' onClick={handleClose} sx={{ color: 'text.primary' }}>
+            <Icon icon='bx:x' fontSize={20} />
+          </IconButton>
+        </Header>
+        <Box sx={{ p: 5 }}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <>
+              <FormControl fullWidth sx={{ mb: 6 }}>
+                <Controller
+                  name='firstName'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label='First Name'
+                      onChange={onChange}
+                      placeholder='John Doe'
+                      error={Boolean(errors.firstName)}
+                    />
+                  )}
+                />
 
-      <Header>
-        <Typography variant='h6' > Add User </Typography>
-        <IconButton size='small' onClick={handleClose} sx={{ color: 'text.primary' }}>
-          <Icon icon='bx:x' fontSize={20} />
-        </IconButton>
-      </Header>
-      <Box sx={{ p: 5 }}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-         <>
-          <FormControl fullWidth sx={{ mb: 6 }}>
-            <Controller
-              name='firstName'
-              control={control}
-              rules={{ required: true }}
-              render={
-                ({ field: { value, onChange } }) => (
-                <TextField
-                  value={value}
-                  label='First Name'
-                  onChange={onChange}
-                  placeholder='John Doe'
-                  error={Boolean(errors.firstName)
-                  }
+                {errors.firstName && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.firstName.message}</FormHelperText>
+                )}
+              </FormControl>
+            </>
+            <FormControl fullWidth sx={{ mb: 6 }}>
+              <Controller
+                name='lastName'
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { value, onChange } }) => (
+                  <TextField
+                    value={value}
+                    label='Last Name'
+                    onChange={onChange}
+                    placeholder='johndoe'
+                    error={Boolean(errors.lastName)}
                   />
-              )
-            }
-            />
-                  
-            {errors.firstName && <FormHelperText sx={{ color: 'error.main' }}>{errors.firstName.message}</FormHelperText>}
-            
-          </FormControl>
-          
-          </>
-          <FormControl fullWidth sx={{ mb: 6 }}>
-            <Controller
-              name='lastName'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  value={value}
-                  label='Last Name'
-                  onChange={onChange}
-                  placeholder='johndoe'
-                  error={Boolean(errors.lastName)}
-                />
+                )}
+              />
+              {errors.lastName && (
+                <FormHelperText sx={{ color: 'error.main' }}>{errors.lastName.message}</FormHelperText>
               )}
-            />
-            {errors.lastName && <FormHelperText sx={{ color: 'error.main' }}>{errors.lastName.message}</FormHelperText>}
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 6 }}>
-            <Controller
-              name='companyName'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  value={value}
-                  label='Company Name'
-                  onChange={onChange}
-                  placeholder='Company PVT LTD'
-                  error={Boolean(errors.companyName)}
-                />
+            </FormControl>
+            <FormControl fullWidth sx={{ mb: 6 }}>
+              <Controller
+                name='companyName'
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { value, onChange } }) => (
+                  <TextField
+                    value={value}
+                    label='Company Name'
+                    onChange={onChange}
+                    placeholder='Company PVT LTD'
+                    error={Boolean(errors.companyName)}
+                  />
+                )}
+              />
+              {errors.companyName && (
+                <FormHelperText sx={{ color: 'error.main' }}>{errors.companyName.message}</FormHelperText>
               )}
-            />
-            {errors.companyName && <FormHelperText sx={{ color: 'error.main' }}>{errors.companyName.message}</FormHelperText>}
-          </FormControl>
-          
-          <Typography variant='subtitle1' sx={{ fontWeight: 800 }} >
-            Service Location
-          </Typography>     
+            </FormControl>
 
-          <Grid container spacing={4} > 
-          
-          <Grid item xs={10} sm={5}>
+            <Typography variant='subtitle1' sx={{ fontWeight: 800 }}>
+              Service Location
+            </Typography>
 
-         {/* <FormControl fullWidth sx={{ mb: 6 }}> */}
-            
-            <Controller
-              name='slStreetNo'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  type='number'
-                  value={value}
-                  label='Steet No.'
-                  onChange={onChange}
-                  placeholder='425'
-                  error={Boolean(errors.slStreetNo)}
-                />
-              )}
-            />
-            {errors.slStreetNo && <FormHelperText sx={{ color: 'error.main' }}>{errors.slStreetNo.message}</FormHelperText>}
-            </Grid>
+            <Grid container spacing={4}>
+              <Grid item xs={10} sm={5}>
+                {/* <FormControl fullWidth sx={{ mb: 6 }}> */}
 
-            <Grid item xs={12} sm={5}>
-            <Controller
-              name='slStreetName'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  value={value}
-                  label='Street Name'
-                  onChange={onChange}
-                  placeholder='xyz Avenue'
-                  error={Boolean(errors.slStreetName)}
+                <Controller
+                  name='slStreetNo'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      type='number'
+                      value={value}
+                      label='Steet No.'
+                      onChange={onChange}
+                      placeholder='425'
+                      error={Boolean(errors.slStreetNo)}
+                    />
+                  )}
                 />
-              )}
-            />
-            {errors.slStreetName && <FormHelperText sx={{ color: 'error.main' }}>{errors.slStreetName.message}</FormHelperText>}
-            </Grid>
+                {errors.slStreetNo && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.slStreetNo.message}</FormHelperText>
+                )}
+              </Grid>
 
-            <Grid item xs={12} sm={5}>
-            <Controller
-              name='slApartment'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  value={value}
-                  label='Apartment Name'
-                  onChange={onChange}
-                  placeholder='Greenway Apartment'
-                  error={Boolean(errors.slApartment)}
+              <Grid item xs={12} sm={5}>
+                <Controller
+                  name='slStreetName'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label='Street Name'
+                      onChange={onChange}
+                      placeholder='xyz Avenue'
+                      error={Boolean(errors.slStreetName)}
+                    />
+                  )}
                 />
-              )}
-            />
-            {errors.slApartment && <FormHelperText sx={{ color: 'error.main' }}>{errors.slApartment.message}</FormHelperText>}
-            </Grid>
+                {errors.slStreetName && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.slStreetName.message}</FormHelperText>
+                )}
+              </Grid>
 
-            <Grid item xs={12} sm={5}>
-            <Controller
-              name='slCity'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  value={value}
-                  label='City'
-                  onChange={onChange}
-                  placeholder='Newyork'
-                  error={Boolean(errors.slCity)}
+              <Grid item xs={12} sm={5}>
+                <Controller
+                  name='slApartment'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label='Apartment Name'
+                      onChange={onChange}
+                      placeholder='Greenway Apartment'
+                      error={Boolean(errors.slApartment)}
+                    />
+                  )}
                 />
-              )}
-            />
-            {errors.slCity && <FormHelperText sx={{ color: 'error.main' }}>{errors.slCity.message}</FormHelperText>}
-            </Grid>
+                {errors.slApartment && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.slApartment.message}</FormHelperText>
+                )}
+              </Grid>
 
-            <Grid item xs={12} sm={5}>
-            <Controller
-              name='slState'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  value={value}
-                  label='State'
-                  onChange={onChange}
-                  placeholder='Texas'
-                  error={Boolean(errors.slCity)}
+              <Grid item xs={12} sm={5}>
+                <Controller
+                  name='slCity'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label='City'
+                      onChange={onChange}
+                      placeholder='Newyork'
+                      error={Boolean(errors.slCity)}
+                    />
+                  )}
                 />
-              )}
-            />
-            {errors.slState && <FormHelperText sx={{ color: 'error.main' }}>{errors.slState.message}</FormHelperText>}
-            </Grid>
-            
-            <Grid item xs={12} sm={5}>
-            <Controller
-              name='slPostalCode'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  type='number'
-                  value={value}
-                  label='Postal Code'
-                  onChange={onChange}
-                  placeholder='625013'
-                  error={Boolean(errors.slPostalCode)}
+                {errors.slCity && <FormHelperText sx={{ color: 'error.main' }}>{errors.slCity.message}</FormHelperText>}
+              </Grid>
+
+              <Grid item xs={12} sm={5}>
+                <Controller
+                  name='slState'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label='State'
+                      onChange={onChange}
+                      placeholder='Texas'
+                      error={Boolean(errors.slCity)}
+                    />
+                  )}
                 />
-              )}
-            />
-            {errors.slPostalCode && <FormHelperText sx={{ color: 'error.main' }}>{errors.slPostalCode.message}</FormHelperText>}
+                {errors.slState && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.slState.message}</FormHelperText>
+                )}
+              </Grid>
+
+              <Grid item xs={12} sm={5}>
+                <Controller
+                  name='slPostalCode'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      type='number'
+                      value={value}
+                      label='Postal Code'
+                      onChange={onChange}
+                      placeholder='625013'
+                      error={Boolean(errors.slPostalCode)}
+                    />
+                  )}
+                />
+                {errors.slPostalCode && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.slPostalCode.message}</FormHelperText>
+                )}
+              </Grid>
+
+              {/* </FormControl> */}
             </Grid>
-                
-         {/* </FormControl> */}
-          </Grid>
-          <br/>
-          <Typography variant='subtitle1' sx={{ fontWeight: 800 }} >
-            Mailing Address
-          </Typography>
-              
-         < Box>
+            <br />
+            <Typography variant='subtitle1' sx={{ fontWeight: 800 }}>
+              Mailing Address
+            </Typography>
+
             <Box>
-           <FormControlLabel
-            label = 'Mailing Address same as Service Location Address'
-                      
-            control = {<Checkbox 
-              onChange = {handleChange}/>}
-            />
-            
+              <Box>
+                <FormControlLabel
+                  label='Mailing Address same as Service Location Address'
+                  control={<Checkbox onChange={handleChange} />}
+                />
+              </Box>
             </Box>
-          
-          </Box>
-          
 
-                    
-          
-          <Grid container spacing={4} > 
-          
-          <Grid item xs={10} sm={5}>
+            <Grid container spacing={4}>
+              <Grid item xs={10} sm={5}>
+                {/* <FormControl fullWidth sx={{ mb: 6 }}> */}
 
-         {/* <FormControl fullWidth sx={{ mb: 6 }}> */}
-            
-            <Controller
-              name='maStreetNo'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  type='number'
-                  value={value}
-                  label='Steet No.'
-                  onChange={onChange}
-                  placeholder='425'
-                  error={Boolean(errors.maStreetNo)}
+                <Controller
+                  name='maStreetNo'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      type='number'
+                      value={value}
+                      label='Steet No.'
+                      onChange={onChange}
+                      placeholder='425'
+                      error={Boolean(errors.maStreetNo)}
+                    />
+                  )}
                 />
-              )}
-            />
-            {errors.maStreetNo && <FormHelperText sx={{ color: 'error.main' }}>{errors.maStreetNo.message}</FormHelperText>}
+                {errors.maStreetNo && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.maStreetNo.message}</FormHelperText>
+                )}
+              </Grid>
+
+              <Grid item xs={12} sm={5}>
+                <Controller
+                  name='maStreetName'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label='Street Name'
+                      onChange={onChange}
+                      placeholder='xyz Avenue'
+                      error={Boolean(errors.maStreetName)}
+                    />
+                  )}
+                />
+                {errors.maStreetName && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.maStreetName.message}</FormHelperText>
+                )}
+              </Grid>
+
+              <Grid item xs={12} sm={5}>
+                <Controller
+                  name='maApartment'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label='Apartment Name'
+                      onChange={onChange}
+                      placeholder='Greenway Apartment'
+                      error={Boolean(errors.maApartment)}
+                    />
+                  )}
+                />
+                {errors.maApartment && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.maApartment.message}</FormHelperText>
+                )}
+              </Grid>
+
+              <Grid item xs={12} sm={5}>
+                <Controller
+                  name='maCity'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label='City'
+                      onChange={onChange}
+                      placeholder='Newyork'
+                      error={Boolean(errors.maCity)}
+                    />
+                  )}
+                />
+                {errors.maCity && <FormHelperText sx={{ color: 'error.main' }}>{errors.maCity.message}</FormHelperText>}
+              </Grid>
+
+              <Grid item xs={12} sm={5}>
+                <Controller
+                  name='maState'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label='State'
+                      onChange={onChange}
+                      placeholder='Texas'
+                      error={Boolean(errors.maState)}
+                    />
+                  )}
+                />
+                {errors.maState && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.maState.message}</FormHelperText>
+                )}
+              </Grid>
+
+              <Grid item xs={12} sm={5}>
+                <Controller
+                  name='maPostalCode'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      type='number'
+                      value={value}
+                      label='Postal Code'
+                      onChange={onChange}
+                      placeholder='625013'
+                      error={Boolean(errors.maPostalCode)}
+                    />
+                  )}
+                />
+                {errors.maPostalCode && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.maPostalCode.message}</FormHelperText>
+                )}
+              </Grid>
+
+              {/* </FormControl> */}
             </Grid>
 
-            <Grid item xs={12} sm={5}>
-            <Controller
-              name='maStreetName'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  value={value}
-                  label='Street Name'
-                  onChange={onChange}
-                  placeholder='xyz Avenue'
-                  error={Boolean(errors.maStreetName)}
+            <br />
+
+            <Typography variant='subtitle1' sx={{ fontWeight: 800 }}>
+              Postal Details
+            </Typography>
+
+            <Grid container spacing={4}>
+              <Grid item xs={10} sm={5}>
+                <Controller
+                  name='poBoxNo'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      type='number'
+                      value={value}
+                      label='Post Box No.'
+                      onChange={onChange}
+                      placeholder='42512'
+                      error={Boolean(errors.poBoxNo)}
+                    />
+                  )}
                 />
-              )}
-            />
-            {errors.maStreetName && <FormHelperText sx={{ color: 'error.main' }}>{errors.maStreetName.message}</FormHelperText>}
+                {errors.poBoxNo && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.poBoxNo.message}</FormHelperText>
+                )}
+              </Grid>
+
+              <Grid item xs={12} sm={5}>
+                <Controller
+                  name='poBoxCity'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label='City'
+                      onChange={onChange}
+                      placeholder='Newyork'
+                      error={Boolean(errors.poBoxCity)}
+                    />
+                  )}
+                />
+                {errors.poBoxCity && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.poBoxCity.message}</FormHelperText>
+                )}
+              </Grid>
+
+              <Grid item xs={12} sm={5}>
+                <Controller
+                  name='poBoxState'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label='State'
+                      onChange={onChange}
+                      placeholder='Texas'
+                      error={Boolean(errors.poBoxState)}
+                    />
+                  )}
+                />
+                {errors.poBoxState && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.poBoxState.message}</FormHelperText>
+                )}
+              </Grid>
+
+              <Grid item xs={12} sm={5}>
+                <Controller
+                  name='poBoxPostalCode'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      type='number'
+                      value={value}
+                      label='Postal Code'
+                      onChange={onChange}
+                      placeholder='625010'
+                      error={Boolean(errors.poBoxPostalCode)}
+                    />
+                  )}
+                />
+                {errors.poBoxPostalCode && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.poBoxPostalCode.message}</FormHelperText>
+                )}
+              </Grid>
             </Grid>
+            <br />
 
-            <Grid item xs={12} sm={5}>
-            <Controller
-              name='maApartment'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  value={value}
-                  label='Apartment Name'
-                  onChange={onChange}
-                  placeholder='Greenway Apartment'
-                  error={Boolean(errors.maApartment)}
-                />
+            <FormControl fullWidth sx={{ mb: 6 }}>
+              <Controller
+                name='phoneNo'
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { value, onChange } }) => (
+                  <TextField
+                    type='number'
+                    value={value}
+                    label='Phone Number'
+                    onChange={onChange}
+                    placeholder='(397) 294-5153'
+                    error={Boolean(errors.phoneNo)}
+                  />
+                )}
+              />
+              {errors.phoneNo && <FormHelperText sx={{ color: 'error.main' }}>{errors.phoneNo.message}</FormHelperText>}
+            </FormControl>
+
+            <FormControl fullWidth sx={{ mb: 6 }}>
+              <Controller
+                name='email'
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { value, onChange } }) => (
+                  <TextField
+                    type='email'
+                    value={value}
+                    label='Email'
+                    onChange={onChange}
+                    placeholder='johndoe@email.com'
+                    error={Boolean(errors.email)}
+                  />
+                )}
+              />
+              {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
+            </FormControl>
+
+            <FormControl fullWidth sx={{ mb: 6 }}>
+              <Controller
+                name='websiteUrl'
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { value, onChange } }) => (
+                  <TextField
+                    type='url'
+                    value={value}
+                    label='Web URL'
+                    onChange={onChange}
+                    placeholder='https://www.website.com'
+                    error={Boolean(errors.websiteUrl)}
+                  />
+                )}
+              />
+              {errors.websiteUrl && (
+                <FormHelperText sx={{ color: 'error.main' }}>{errors.websiteUrl.message}</FormHelperText>
               )}
-            />
-            {errors.maApartment && <FormHelperText sx={{ color: 'error.main' }}>{errors.maApartment.message}</FormHelperText>}
-            </Grid>
+            </FormControl>
 
-            <Grid item xs={12} sm={5}>
-            <Controller
-              name='maCity'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  value={value}
-                  label='City'
-                  onChange={onChange}
-                  placeholder='Newyork'
-                  error={Boolean(errors.maCity)}
-                />
-              )}
-            />
-            {errors.maCity && <FormHelperText sx={{ color: 'error.main' }}>{errors.maCity.message}</FormHelperText>}
-            </Grid>
-
-            <Grid item xs={12} sm={5}>
-            <Controller
-              name='maState'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  value={value}
-                  label='State'
-                  onChange={onChange}
-                  placeholder='Texas'
-                  error={Boolean(errors.maState)}
-                />
-              )}
-            />
-            {errors.maState && <FormHelperText sx={{ color: 'error.main' }}>{errors.maState.message}</FormHelperText>}
-            </Grid>
-            
-            <Grid item xs={12} sm={5}>
-            <Controller
-              name='maPostalCode'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  type='number'
-                  value={value}
-                  label='Postal Code'
-                  onChange={onChange}
-                  placeholder='625013'
-                  error={Boolean(errors.maPostalCode)}
-                />
-              )}
-            />
-            {errors.maPostalCode && <FormHelperText sx={{ color: 'error.main' }}>{errors.maPostalCode.message}</FormHelperText>}
-            </Grid>
-
-         {/* </FormControl> */}
-          </Grid>
-
-          
-            <br/>
-
-            <Typography variant='subtitle1' sx={{ fontWeight: 800 }} >
-            Postal Details
-          </Typography>
-
-          <Grid container spacing={4} > 
-          
-          <Grid item xs={10} sm={5}>
-         
-            <Controller
-              name='poBoxNo'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  type='number'
-                  value={value}
-                  label='Post Box No.'
-                  onChange={onChange}
-                  placeholder='42512'
-                  error={Boolean(errors.poBoxNo)}
-                />
-              )}
-            />
-            {errors.poBoxNo && <FormHelperText sx={{ color: 'error.main' }}>{errors.poBoxNo.message}</FormHelperText>}
-            </Grid>
-
-          <Grid item xs={12} sm={5}>
-            <Controller
-              name='poBoxCity'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  value={value}
-                  label='City'
-                  onChange={onChange}
-                  placeholder='Newyork'
-                  error={Boolean(errors.poBoxCity)}
-                />
-              )}
-            />
-            {errors.poBoxCity && <FormHelperText sx={{ color: 'error.main' }}>{errors.poBoxCity.message}</FormHelperText>}
-            </Grid>
-
-            <Grid item xs={12} sm={5}>
-            <Controller
-              name='poBoxState'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  value={value}
-                  label='State'
-                  onChange={onChange}
-                  placeholder='Texas'
-                  error={Boolean(errors.poBoxState)}
-                />
-              )}
-            />
-            {errors.poBoxState && <FormHelperText sx={{ color: 'error.main' }}>{errors.poBoxState.message}</FormHelperText>}
-            </Grid>
-            
-            <Grid item xs={12} sm={5}>
-            <Controller
-              name='poBoxPostalCode'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  type='number'
-                  value={value}
-                  label='Postal Code'
-                  onChange={onChange}
-                  placeholder='625010'
-                  error={Boolean(errors.poBoxPostalCode)}
-                />
-              )}
-            />
-            {errors.poBoxPostalCode && <FormHelperText sx={{ color: 'error.main' }}>{errors.poBoxPostalCode.message}</FormHelperText>}
-            </Grid>
-
-        
-          </Grid>
-            <br/>
-   
-
-
-          <FormControl fullWidth sx={{ mb: 6 }}>
-            <Controller
-              name='phoneNo'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  type='number'
-                  value={value}
-                  label='Phone Number'
-                  onChange={onChange}
-                  placeholder='(397) 294-5153'
-                  error={Boolean(errors.phoneNo)}
-                />
-              )}
-            />
-            {errors.phoneNo && <FormHelperText sx={{ color: 'error.main' }}>{errors.phoneNo.message}</FormHelperText>}
-          </FormControl>
-
-          <FormControl fullWidth sx={{ mb: 6 }}>
-            <Controller
-              name='email'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  type='email'
-                  value={value}
-                  label='Email'
-                  onChange={onChange}
-                  placeholder='johndoe@email.com'
-                  error={Boolean(errors.email)}
-                />
-              )}
-            />
-            {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
-          </FormControl>
-          
-          <FormControl fullWidth sx={{ mb: 6 }}>
-            <Controller
-              name='websiteUrl'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  type='url'
-                  value={value}
-                  label='Web URL'
-                  onChange={onChange}
-                  placeholder='https://www.website.com'
-                  error={Boolean(errors.websiteUrl)}
-                />
-              )}
-            />
-            {errors.websiteUrl && <FormHelperText sx={{ color: 'error.main' }}>{errors.websiteUrl.message}</FormHelperText>}
-          </FormControl>
-          
-       {/*   <FormControl fullWidth sx={{ mb: 6 }}>
+            {/*   <FormControl fullWidth sx={{ mb: 6 }}>
             <InputLabel
               id='validation-billing-select'
               error={Boolean(errors.billing)}
@@ -778,23 +769,21 @@ const SidebarAddUser = (props: SidebarAddUserType) => {
           </FormControl>
             */}
 
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            
-            <Button  size='large' type='submit' variant='contained' sx={{ mr: 3 }} disabled={!isValid} >
-              Submit
-            </Button>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Button size='large' type='submit' variant='contained' sx={{ mr: 3 }} disabled={!isValid}>
+                Submit
+              </Button>
 
-            <Button size='large' variant='outlined' color='secondary' onClick={handleClose}>
-              Cancel
-            </Button>
-          </Box>
-        </form>
-      </Box>
-     </Dialog>
+              <Button size='large' variant='outlined' color='secondary' onClick={handleClose}>
+                Cancel
+              </Button>
+            </Box>
+          </form>
+        </Box>
+      </Dialog>
     </Grid>
-     //</Drawer>
-  
-   
+
+    //</Drawer>
   )
 }
 

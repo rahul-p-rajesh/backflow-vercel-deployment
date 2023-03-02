@@ -29,7 +29,7 @@ const sources = {
 
     // Custom file with only few icons
 
-/*
+    /*
      {
       filename: require.resolve('@iconify/json/json/line-md.json'),
       icons: ['home-twotone-alt', 'github', 'document-list', 'document-code', 'image-twotone']
@@ -59,7 +59,7 @@ const sources = {
     // 'json/gg.json'
   ],
 
-/*
+  /*
   icons: ['bi:airplane-engines', 'tabler:anchor', 'uit:adobe-alt', 'fa6-regular:comment', 'twemoji:auto-rickshaw'],
 */
   svg: [

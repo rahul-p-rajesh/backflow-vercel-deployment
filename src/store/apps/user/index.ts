@@ -1,7 +1,6 @@
 // ** Redux Imports
 import { Dispatch } from 'redux'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import toast,{ Toaster } from 'react-hot-toast';
 
 // ** Axios Imports
 import axios from 'axios'
@@ -30,30 +29,25 @@ export const fetchData = createAsyncThunk('appUsers/fetchData', async (params: D
 // ** Add User
 export const addUser = createAsyncThunk(
   'appUsers/addUser',
- 
+
   async (data: { [key: string]: number | string }, { getState, dispatch }: Redux) => {
     console.log(data)
     try {
-      const response = await axios.post('http://ec2-52-207-247-121.compute-1.amazonaws.com:8080/customers',{
-      data })
+      const response = await axios.post('http://ec2-52-207-247-121.compute-1.amazonaws.com:8080/customers', {
+        data
+      })
 
-     dispatch(fetchData(getState().user.params))
-     
-     const notify = () => toast('Details submission success')
-     
-     return 
-      response.data  
-     
-     
-      //{notify} 
+      dispatch(fetchData(getState().user.params))
 
-  } catch (err){
-    console.log(err);
-  }
+      return
+      response.data
 
+      //{notify}
+    } catch (err) {
+      console.log(err)
+    }
   }
 )
-
 
 // ** Delete User
 export const deleteUser = createAsyncThunk(

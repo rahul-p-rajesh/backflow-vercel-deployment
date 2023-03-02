@@ -1,17 +1,13 @@
 // ** React Imports
-import { useState } from 'react'
+// import { useState } from 'react'
 
 // ** MUI Imports
-import Drawer from '@mui/material/Drawer'
 import Grid from '@mui/material/Grid'
 import Dialog from '@mui/material/Dialog'
-import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
-import MenuItem from '@mui/material/MenuItem'
 import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
-import InputLabel from '@mui/material/InputLabel'
 import Typography from '@mui/material/Typography'
 import Box, { BoxProps } from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
@@ -35,6 +31,7 @@ import { addUser } from 'src/store/apps/customers'
 
 // ** Types Imports
 import { AppDispatch } from 'src/store'
+
 //import { DataGrid } from '@mui/x-data-grid'
 
 //import Checkbox from 'src/@core/theme/overrides/checkbox'
@@ -161,7 +158,7 @@ const SidebarAddUser = (props: SidebarAddUserType) => {
   // ** State
   // const [plan, setPlan] = useState<string>('basic')
   //const [role, setRole] = useState<string>('subscriber')
-  
+
   // ** Hooks
   const dispatch = useDispatch<AppDispatch>()
   const {
@@ -169,7 +166,8 @@ const SidebarAddUser = (props: SidebarAddUserType) => {
     control,
     setValue,
     handleSubmit,
-    register,
+
+    // register,
     formState: { errors, isValid }
   } = useForm({
     defaultValues,
@@ -192,7 +190,6 @@ const SidebarAddUser = (props: SidebarAddUserType) => {
     reset()
   }
 
-  
   return (
     <Grid>
       <Dialog fullWidth maxWidth='md' scroll='body' onClose={handleClose} open={open}>
@@ -634,7 +631,6 @@ const SidebarAddUser = (props: SidebarAddUserType) => {
               <Controller
                 name='phoneNo'
                 control={control}
-                
                 rules={{ required: true }}
                 render={({ field: { value, onChange } }) => (
                   <TextField
@@ -643,8 +639,6 @@ const SidebarAddUser = (props: SidebarAddUserType) => {
                     label='Phone Number'
                     onChange={onChange}
                     placeholder='3972945153'
-                    
-
                     error={Boolean(errors.phoneNo)}
                   />
                 )}
@@ -687,7 +681,9 @@ const SidebarAddUser = (props: SidebarAddUserType) => {
                   />
                 )}
               />
-              {errors.websiteUrl && <FormHelperText sx={{ color: 'error.main' }}>{errors.websiteUrl.message}</FormHelperText>}
+              {errors.websiteUrl && (
+                <FormHelperText sx={{ color: 'error.main' }}>{errors.websiteUrl.message}</FormHelperText>
+              )}
             </FormControl>
 
             {/*   <FormControl fullWidth sx={{ mb: 6 }}>
