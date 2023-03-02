@@ -30,13 +30,29 @@ export const fetchData = createAsyncThunk('appUsers/fetchData', async (params: P
 // ** Add User
 export const addUser = createAsyncThunk(
   'appUsers/addUser',
-  async (data: { [key: string]: number | string }, { getState, dispatch }: Redux) => {
-    const response = await axios.post('/apps/users/add-user', {
-      data
-    })
-    dispatch(fetchData(getState().user.params))
 
-    return response.data
+  async (data: { [key: string]: number | string }, { getState, dispatch }: Redux) => {
+    const userData: any = { ...data, isActive: true }
+    const response = await axios.post('http://ec2-52-207-247-121.compute-1.amazonaws.com:8080/customers', {
+      ...userData
+    })
+
+    const params: PaginationParams = {
+      page: getState().customers.currentPage,
+      limit: getState().customers.itemsPerPage,
+      sortBy: getState().customers.sortBy,
+      sortByDirection: getState().customers.sortByDirection,
+      search: getState().customers.search
+    }
+
+    dispatch(fetchData(params))
+
+    // const notify = () => toast('Details submission success')
+
+    return
+    response.data
+
+    //{notify}
   }
 )
 
@@ -89,6 +105,19 @@ export const appCustomersSlice = createSlice({
       })
       .addCase(fetchData.rejected, (state, action) => {
         console.log(action)
+
+        return {
+          ...state,
+          isLoading: false
+        }
+      })
+      .addCase(addUser.rejected, (state, action) => {
+        console.log(action)
+
+        return {
+          ...state,
+          isLoading: false
+        }
       })
   }
 })

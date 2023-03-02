@@ -37,7 +37,7 @@ import { CustomerType } from 'src/types/apps/customerTypes'
 import TableHeader from 'src/views/apps/customer/list/TableHeader'
 import AddUserDrawer from 'src/views/apps/customer/list/AddCustomerDrawer' //TODO need to change it to modal
 
-import { debounce } from 'lodash'
+import { throttle } from 'lodash'
 
 // interface UserStatusType {
 //   [key: string]: ThemeColor
@@ -125,7 +125,7 @@ const columns = [
     field: 'id',
     renderCell: ({ row }: CellType) => {
       return (
-        <Typography noWrap sx={{ fontWeight: 600, color: 'text.secondary', textTransform: 'capitalize' }}>
+        <Typography noWrap sx={{ fontWeight: 600, color: 'text.secondary' }}>
           {row.id}
         </Typography>
       )
@@ -140,7 +140,7 @@ const columns = [
     sortable: false,
     renderCell: ({ row }: CellType) => {
       return (
-        <Typography noWrap sx={{ fontWeight: 600, color: 'text.secondary', textTransform: 'capitalize' }}>
+        <Typography noWrap sx={{ fontWeight: 600, color: 'text.secondary' }}>
           {row.firstName}
         </Typography>
       )
@@ -155,7 +155,7 @@ const columns = [
     sortable: false,
     renderCell: ({ row }: CellType) => {
       return (
-        <Typography noWrap sx={{ fontWeight: 600, color: 'text.secondary', textTransform: 'capitalize' }}>
+        <Typography noWrap sx={{ fontWeight: 600, color: 'text.secondary' }}>
           {row.firstName}
         </Typography>
       )
@@ -170,7 +170,7 @@ const columns = [
     sortable: false,
     renderCell: ({ row }: CellType) => {
       return (
-        <Typography noWrap sx={{ fontWeight: 600, color: 'text.secondary', textTransform: 'capitalize' }}>
+        <Typography noWrap sx={{ fontWeight: 600, color: 'text.secondary' }}>
           {row.email}
         </Typography>
       )
@@ -187,7 +187,7 @@ const columns = [
 
     renderCell: ({ row }: CellType) => {
       return (
-        <Typography noWrap sx={{ fontWeight: 600, color: 'text.secondary', textTransform: 'capitalize' }}>
+        <Typography noWrap sx={{ fontWeight: 600, color: 'text.secondary' }}>
           {`${row.slApartment} ${row.slStreetNo} ${row.slStreetName}  ${row.slCity}  ${row.slState}  ${row.slPostalCode}`}
         </Typography>
       )
@@ -397,15 +397,49 @@ const CustomerList = () => {
       }
       sortDirection = sort[0].sort === 'desc' ? 'DESC' : 'ASC'
     }
-    dispatch(fetchData({ page: currentPage, limit: pageSize, sortBy: sortBy, sortByDirection: sortDirection, search }))
-  }, [dispatch, currentPage, pageSize, sort, search])
+    dispatch(
+      fetchData({
+        page: currentPage,
+        limit: pageSize,
+        sortBy: sortBy,
+        sortByDirection: sortDirection,
+        search: ''
+      })
+    )
+  }, [dispatch, currentPage, pageSize, sort])
 
-  const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
+  const getCustomers = (searchText = '') => {
+    let sortBy = 'id'
+    let sortDirection: 'DESC' | 'ASC' = 'DESC'
+    if (sort.length > 0) {
+      sortBy = sort[0].field
+      if (sortBy === 'address') {
+        sortBy = 'slApartment'
+      }
+      sortDirection = sort[0].sort === 'desc' ? 'DESC' : 'ASC'
+    }
+    dispatch(
+      fetchData({
+        page: currentPage,
+        limit: pageSize,
+        sortBy: sortBy,
+        sortByDirection: sortDirection,
+        search: searchText
+      })
+    )
+  }
 
-  const debounceSearch = useCallback(
-    debounce(searchText => setSearch(searchText), 1000),
+  const debounceFn = useCallback(
+    throttle(text => getCustomers(text), 1000),
     []
   )
+
+  const handleSearch = useCallback((searchText: string) => {
+    setSearch(searchText)
+    debounceFn(searchText)
+  }, [])
+
+  const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
 
   return (
     <Grid container spacing={6}>
@@ -414,7 +448,7 @@ const CustomerList = () => {
           <CardHeader title='Customer Management' />
           <CardContent>
             <Divider sx={{ m: '0 !important' }} />
-            <TableHeader value={search} handleFilter={debounceSearch} toggle={toggleAddUserDrawer} />
+            <TableHeader value={search} handleFilter={handleSearch} toggle={toggleAddUserDrawer} />
             {/* //store.data */}
             <DataGrid
               autoHeight
