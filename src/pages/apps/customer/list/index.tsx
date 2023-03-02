@@ -431,7 +431,7 @@ const CustomerList = () => {
 
   const debounceFn = useCallback(
     throttle(text => getCustomers(text), 1000),
-    []
+    [throttle, getCustomers]
   )
 
   const handleSearch = useCallback((searchText: string) => {

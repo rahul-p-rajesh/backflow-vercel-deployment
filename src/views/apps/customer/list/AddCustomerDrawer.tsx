@@ -112,7 +112,6 @@ const schema = yup.object().shape({
     .number()
     .typeError('Contact Number field is required')
     .min(10, obj => showErrors('Contact Number', obj.value.length, obj.min))
-    .min(10, obj => showErrors('Contact Number', obj.value.length, obj.max))
     .required(),
   firstName: yup
     .string()
